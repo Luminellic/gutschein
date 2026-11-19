@@ -1,0 +1,6 @@
+# Fallback, falls das Hosting den Webroot nicht auf /public setzen kann:
+# Alle Anfragen nach /public umleiten und den Rest des Projekts sperren.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
