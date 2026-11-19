@@ -28,6 +28,8 @@ composer serve
 
 Shop: http://localhost:8000 · Verwaltung: http://localhost:8000/admin
 
+Mit dem Handy testen (z.B. QR-Code scannen): `composer serve-lan` starten und in `.env` `APP_URL=http://<IP-des-Computers>:8000` setzen. Handy und Computer müssen im selben WLAN sein.
+
 Schnelle Vorführung ohne MySQL: in `.env` `DB_DRIVER=sqlite` und `DB_DATABASE=storage/demo.sqlite` setzen, dann `php bin/install.php …` wie oben.
 
 **XAMPP:** Projekt nach `htdocs/gutschein` legen, `.env` mit `APP_URL=http://localhost/gutschein` und `APP_BASE_PATH=/gutschein`. Die `.htaccess` im Projektordner leitet auf `public/` weiter.

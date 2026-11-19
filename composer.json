@@ -15,14 +15,25 @@
         "phpunit/phpunit": "^11.0"
     },
     "autoload": {
-        "psr-4": { "App\\": "src/" }
+        "psr-4": {
+            "App\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Tests\\": "tests/" }
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "test": "phpunit",
-        "serve": "php -S localhost:8000 -t public public/router.php"
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S localhost:8000 -t public public/router.php"
+        ],
+        "serve-lan": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S 0.0.0.0:8000 -t public public/router.php"
+        ]
     },
     "config": {
         "sort-packages": true
