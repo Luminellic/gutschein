@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS products (
     type            VARCHAR(20)  NOT NULL,                  -- value | service
     title           VARCHAR(160) NOT NULL,
     description     TEXT         NULL,
-    amount_cents    INT UNSIGNED NULL,                      -- fixer Betrag/Preis; NULL = frei wählbar
+    amount_cents    INT UNSIGNED NULL,                      -- fixer Betrag bzw. Preis, NULL = frei wählbar
     min_cents       INT UNSIGNED NULL,
     max_cents       INT UNSIGNED NULL,
     validity_months SMALLINT UNSIGNED NULL,                 -- NULL = Standard aus Einstellungen

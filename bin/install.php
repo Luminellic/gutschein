@@ -52,7 +52,7 @@ if ($sqlite && (int) $db->value("SELECT COUNT(*) FROM sqlite_master WHERE type =
     echo "Tabellen existieren bereits.\n";
 } else {
     $schema = (string) file_get_contents(APP_ROOT . ($sqlite ? '/database/schema.sqlite.sql' : '/database/schema.sql'));
-    $schema = preg_replace('/^\s*--.*$/m', '', $schema) ?? '';
+    $schema = preg_replace('/--\s.*$/m', '', $schema) ?? ''; // Kommentare entfernen, auch am Zeilenende
     foreach (array_filter(array_map('trim', explode(';', $schema))) as $statement) {
         $db->pdo()->exec($statement);
     }
