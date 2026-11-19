@@ -12,6 +12,7 @@ declare(strict_types=1);
  */
 
 use App\App;
+use App\Core\Env;
 use App\Services\Settings;
 
 require dirname(__DIR__) . '/src/bootstrap.php';
@@ -20,6 +21,27 @@ $options = getopt('', ['admin-email:', 'admin-name:', 'admin-password:', 'demo',
 if (isset($options['help'])) {
     echo "php bin/install.php --admin-email=… --admin-name=… [--admin-password=…] [--demo]\n";
     exit(0);
+}
+
+// 0. MySQL-Datenbank anlegen, falls sie noch fehlt (z.B. frische XAMPP-Installation)
+if (Env::get('DB_DRIVER', 'mysql') === 'mysql') {
+    $name = (string) Env::get('DB_NAME', 'gutschein');
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $name)) {
+        fwrite(STDERR, "DB_NAME darf nur Buchstaben, Zahlen und _ enthalten.\n");
+        exit(1);
+    }
+    try {
+        $server = new PDO(
+            sprintf('mysql:host=%s;port=%s;charset=utf8mb4', Env::get('DB_HOST', '127.0.0.1'), Env::get('DB_PORT', '3306')),
+            Env::get('DB_USER', 'root'),
+            Env::get('DB_PASS', ''),
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        );
+        $server->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    } catch (PDOException $e) {
+        fwrite(STDERR, "Keine Verbindung zu MySQL: " . $e->getMessage() . "\nLäuft MySQL (z.B. im XAMPP Control Panel)? Stimmen DB_HOST, DB_USER und DB_PASS in .env?\n");
+        exit(1);
+    }
 }
 
 $db = App::db();
